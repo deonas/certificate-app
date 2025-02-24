@@ -115,13 +115,26 @@ export default function CertificatesPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch("/api/certificates");
-      if (!res.ok) throw new Error("Failed to fetch certificates.");
+      const res = await fetch(
+        "https://my-certificate-app.vercel.app/api/certificates",
+        {
+          method: "GET",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      console.log("Response Status:", res.status);
+
+      if (!res.ok) {
+        const errorText = await res.text(); // Read error response
+        throw new Error(`HTTP ${res.status}: ${errorText}`);
+      }
+
       const data = await res.json();
       setCertificates(data);
-    } catch (err) {
-      console.error("Error fetching certificates:", err);
-      setError("Unable to load certificates. Please try again.");
+    } catch (err: any) {
+      console.error("🚨 Fetch Error:", err.message);
+      setError(`Unable to load certificates: ${err.message}`);
     } finally {
       setLoading(false);
     }
