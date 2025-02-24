@@ -116,7 +116,7 @@ export default function CertificatesPage() {
     setError(null);
     try {
       const res = await fetch(
-        "https://my-certificate-app.vercel.app/api/certificates",
+        "https://my-certificate-iemti1imb-deonas-projects.vercel.app/certificates",
         {
           method: "GET",
           headers: { "Content-Type": "application/json" },
