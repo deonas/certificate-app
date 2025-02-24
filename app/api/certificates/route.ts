@@ -1,8 +1,20 @@
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
-const prisma = new PrismaClient(); // ✅ Make sure this is correctly initialized
+const prisma = new PrismaClient();
 
+// ✅ Handle GET request to fetch all certificates
+export async function GET() {
+  try {
+    const certificates = await prisma.certificate.findMany();
+    return NextResponse.json(certificates, { status: 200 });
+  } catch (error) {
+    console.error("❌ Error fetching certificates:", error);
+    return NextResponse.json({ error: "Error fetching certificates" }, { status: 500 });
+  }
+}
+
+// ✅ Handle POST request to add a new certificate
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -11,39 +23,40 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
     }
 
-    const { certificateId, name, issuer, date, url } = body;
+    const { name, issuer, date, certificateUrl, joiningLetterUrl, recommendationLetterUrl } = body;
 
-    if (!certificateId || !name || !issuer || !date || !url) {
+    // ✅ Ensure required fields are provided
+    if (!name || !issuer || !date || !certificateUrl) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
     }
 
-    // ✅ Check if prisma.certificate exists before using it
-    if (!prisma.certificate) {
-      return NextResponse.json({ error: "Prisma model not found" }, { status: 500 });
-    }
-
+    // ✅ Create a new certificate entry
     const newCertificate = await prisma.certificate.create({
-      data: { certificateId, name, issuer, date, url },
+      data: { 
+        name, 
+        issuer, 
+        date, 
+        certificateUrl, 
+        joiningLetterUrl, 
+        recommendationLetterUrl 
+      },
     });
 
     return NextResponse.json(newCertificate, { status: 201 });
-  }catch (error: unknown) {
-    if (error instanceof Error) {
-        console.error("❌ Error adding certificate:", error.message);
-        return NextResponse.json({ error: `Database error: ${error.message}` }, { status: 500 });
-    } else {
-        console.error("❌ Unknown error:", error);
-        return NextResponse.json({ error: "An unknown error occurred" }, { status: 500 });
-    }
-}
-}
-export async function GET() {
-    try {
-      const certificates = await prisma.certificate.findMany();
-      return NextResponse.json(certificates, { status: 200 });
-    } catch (error) {
-      console.error("Error fetching certificates:", error);
-      return NextResponse.json({ error: "Error fetching certificates" }, { status: 500 });
-    }
+  } catch (error) {
+    console.error("❌ Error adding certificate:", error);
+    return NextResponse.json({ error: "Database error" }, { status: 500 });
   }
-  
+}
+
+// ✅ Handle OPTIONS request to fix 405 issues on Vercel
+export async function OPTIONS() {
+  return new Response(null, {
+    status: 204,
+    headers: {
+      "Access-Control-Allow-Origin": "*",  // Allow all origins (you can specify your frontend domain)
+      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type",
+    },
+  });
+}

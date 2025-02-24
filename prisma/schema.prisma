@@ -14,10 +14,14 @@ model User {
 }
 
 model Certificate {
-  id            Int      @id @default(autoincrement())
-  certificateId String   @unique
-  name          String
-  issuer        String
-  date          DateTime
-  url           String
+  id                      String @id @default(uuid()) // UUID as primary key
+  name                    String
+  issuer                  String
+  date                    String
+  image                   String?  // Optional image URL
+  certificateUrl          String?  // Main certificate URL
+  joiningLetterUrl        String?  // Optional Joining Letter URL
+  recommendationLetterUrl String?  // Optional Recommendation Letter URL
 }
+
+
