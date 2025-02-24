@@ -132,14 +132,16 @@ export default function CertificatesPage() {
 
       const data = await res.json();
       setCertificates(data);
-    } catch (err: any) {
-      console.error("🚨 Fetch Error:", err.message);
-      setError(`Unable to load certificates: ${err.message}`);
-    } finally {
-      setLoading(false);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error("🚨 Fetch Error:", err.message);
+        setError(`Unable to load certificates: ${err.message}`);
+      } else {
+        console.error("🚨 An unknown error occurred:", err);
+        setError("Unable to load certificates due to an unknown error.");
+      }
     }
   };
-
   useEffect(() => {
     fetchCertificates();
   }, []);
