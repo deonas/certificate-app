@@ -18,7 +18,6 @@ model Certificate {
   name                    String
   issuer                  String
   date                    String
-  image                   String?  // Optional image URL
   certificateUrl          String?  // Main certificate URL
   joiningLetterUrl        String?  // Optional Joining Letter URL
   recommendationLetterUrl String?  // Optional Recommendation Letter URL
