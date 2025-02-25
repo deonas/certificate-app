@@ -115,13 +115,10 @@ export default function CertificatesPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(
-        "https://my-certificate-iemti1imb-deonas-projects.vercel.app/certificates",
-        {
-          method: "GET",
-          headers: { "Content-Type": "application/json" },
-        }
-      );
+      const res = await fetch("/api/certificates", {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      });
 
       console.log("Response Status:", res.status);
 
