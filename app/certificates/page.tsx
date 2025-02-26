@@ -541,7 +541,6 @@ export default function CertificatesPage() {
       setLoading(false);
     }
   };
-
   useEffect(() => {
     fetchCertificates();
   }, []);
