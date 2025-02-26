@@ -312,10 +312,178 @@
 
 //org
 
+// "use client";
+
+// import { useEffect, useState } from "react";
+// import Image from "next/image"; // Import the Image component from next/image
+
+// interface Certificate {
+//   id: string;
+//   name: string;
+//   issuer: string;
+//   date: string;
+//   certificateUrl: string;
+//   joiningLetterUrl?: string;
+//   recommendationLetterUrl?: string;
+// }
+
+// export default function CertificatesPage() {
+//   const [certificates, setCertificates] = useState<Certificate[]>([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+
+//   const fetchCertificates = async () => {
+//     setLoading(true);
+//     setError(null);
+
+//     try {
+//       const apiUrl =
+//         process.env.NODE_ENV === "development"
+//           ? "http://localhost:3000/api/certificates"
+//           : "/api/certificates";
+
+//       console.log("🔄 Fetching certificates from:", apiUrl);
+
+//       const res = await fetch(apiUrl, {
+//         method: "GET",
+//         headers: { "Content-Type": "application/json" },
+//       });
+
+//       console.log("📡 Response Status:", res.status);
+
+//       if (!res.ok) {
+//         const errorText = await res.text();
+//         throw new Error(`HTTP ${res.status}: ${errorText}`);
+//       }
+
+//       const data = await res.json();
+
+//       if (!Array.isArray(data)) {
+//         throw new Error("Unexpected API response format.");
+//       }
+
+//       console.log("✅ Certificates received:", data);
+//       setCertificates(data);
+//     } catch (err: unknown) {
+//       if (err instanceof Error) {
+//         console.error("🚨 Fetch Error:", err.message);
+//         setError(`Unable to load certificates: ${err.message}`);
+//       } else {
+//         console.error("🚨 An unknown error occurred:", err);
+//         setError("Unable to load certificates due to an unknown error.");
+//       }
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   useEffect(() => {
+//     fetchCertificates();
+//   }, []);
+
+//   return (
+//     <div
+//       className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center p-6"
+//       style={{
+//         backgroundImage:
+//           "url('https://th.bing.com/th/id/OIP.vFzrIM2R7hCCmjRFMojeRQHaEK?rs=1&pid=ImgDetMain')",
+//       }}
+//     >
+//       <Image
+//         src="/new.png" // Path relative to the `public` folder
+//         alt="Company Logo"
+//         width={128}
+//         height={80}
+//         className="absolute top-4 left-4 w-32 h-20 object-contain"
+//       />
+
+//       <h1 className="text-3xl font-bold text-white mb-6">
+//         Intern&apos;s Folio
+//       </h1>
+
+//       {error && <p className="text-red-500 mb-4">{error}</p>}
+
+//       {loading ? (
+//         <div className="flex items-center space-x-2">
+//           <div className="w-5 h-5 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+//           <p className="text-gray-500">Loading certificates...</p>
+//         </div>
+//       ) : certificates.length === 0 ? (
+//         <p className="text-gray-500 mt-4">No certificates found.</p>
+//       ) : (
+//         <ul className="space-y-4">
+//           {certificates.map((cert) => (
+//             <li
+//               key={cert.id}
+//               className="p-4 bg-white shadow-md rounded-lg flex items-center gap-4 w-full max-w-2xl"
+//             >
+//               <Image
+//                 src="https://media3.giphy.com/media/PijzuUzUhm7hcWinGn/giphy.gif"
+//                 alt="Verified"
+//                 width={80}
+//                 height={80}
+//                 className="w-20 h-20"
+//               />
+
+//               <div className="flex flex-col">
+//                 <h2 className="text-xl font-semibold">{cert.name}</h2>
+//                 <div className="text-gray-500">
+//                   <p>{cert.issuer}</p>
+//                   <p>{cert.date}</p>
+//                 </div>
+
+//                 <div className="mt-2 flex flex-col gap-2">
+//                   <a
+//                     href={cert.certificateUrl}
+//                     className="text-blue-500 underline"
+//                     target="_blank"
+//                     rel="noopener noreferrer"
+//                   >
+//                     📜 View Certificate
+//                   </a>
+//                   {cert.joiningLetterUrl && (
+//                     <a
+//                       href={cert.joiningLetterUrl}
+//                       className="text-green-500 underline"
+//                       target="_blank"
+//                       rel="noopener noreferrer"
+//                     >
+//                       📄 View Joining Letter
+//                     </a>
+//                   )}
+//                   {cert.recommendationLetterUrl && (
+//                     <a
+//                       href={cert.recommendationLetterUrl}
+//                       className="text-purple-500 underline"
+//                       target="_blank"
+//                       rel="noopener noreferrer"
+//                     >
+//                       ✉️ View Recommendation Letter
+//                     </a>
+//                   )}
+//                 </div>
+//               </div>
+//             </li>
+//           ))}
+//         </ul>
+//       )}
+//       <footer className="mt-auto py-4 text-center text-white">
+//         <a
+//           href="https://purplerain.framer.ai/"
+//           target="_blank"
+//           rel="noopener noreferrer"
+//         >
+//           Company Website
+//         </a>
+//       </footer>
+//     </div>
+//   );
+// }
+
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image"; // Import the Image component from next/image
+import Image from "next/image";
 
 interface Certificate {
   id: string;
@@ -337,10 +505,7 @@ export default function CertificatesPage() {
     setError(null);
 
     try {
-      const apiUrl =
-        process.env.NODE_ENV === "development"
-          ? "http://localhost:3000/api/certificates"
-          : "/api/certificates";
+      const apiUrl = "/api/certificates"; // Always use the relative path in production
 
       console.log("🔄 Fetching certificates from:", apiUrl);
 
@@ -423,6 +588,7 @@ export default function CertificatesPage() {
                 width={80}
                 height={80}
                 className="w-20 h-20"
+                unoptimized // Add this prop for animated GIFs
               />
 
               <div className="flex flex-col">
