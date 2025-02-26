@@ -62,7 +62,18 @@ export async function GET() {
   try {
     console.log("Fetching certificates from the database...");
 
-    const certificates = await prisma.certificate.findMany();
+    const certificates = await prisma.certificate.findMany({
+      select: {
+        id: true,
+        name: true,
+        issuer: true,
+        date: true,
+        certificateUrl: true,
+        joiningLetterUrl: true,
+        recommendationLetterUrl: true,
+      },
+    });
+
     console.log("Certificates fetched successfully:", certificates);
 
     return NextResponse.json(certificates, { status: 200 });
