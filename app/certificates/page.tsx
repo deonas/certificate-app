@@ -705,21 +705,31 @@ export default function CertificatesPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center p-4 md:p-6">
+    <div
+      className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center p-4 md:p-6"
+      style={{
+        backgroundImage:
+          "url('https://th.bing.com/th/id/OIP.vFzrIM2R7hCCmjRFMojeRQHaEK?rs=1&pid=ImgDetMain')",
+      }}
+    >
+      {/* Company Logo */}
       <Image
-        src="/new.png"
+        src="/new.png" // Ensure the image is in the `public` folder
         alt="Company Logo"
         width={128}
         height={80}
-        className="absolute top-4 left-4 w-24 h-16 md:w-32 md:h-20 object-contain"
+        className="absolute top-0 left-4 w-24 h-16 md:w-32 md:h-20 object-contain"
       />
 
+      {/* Page Title */}
       <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
         Intern&apos;s Folio
       </h1>
 
+      {/* Error Message */}
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
+      {/* Loading State */}
       {loading ? (
         <div className="flex items-center space-x-2">
           <div className="w-5 h-5 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
@@ -734,6 +744,7 @@ export default function CertificatesPage() {
               key={cert.id}
               className="p-4 bg-white shadow-md rounded-lg flex flex-col md:flex-row items-center gap-4"
             >
+              {/* Verified GIF */}
               <Image
                 src="https://media3.giphy.com/media/PijzuUzUhm7hcWinGn/giphy.gif"
                 alt="Verified"
@@ -743,13 +754,17 @@ export default function CertificatesPage() {
                 unoptimized
               />
 
+              {/* Certificate Details */}
               <div className="flex flex-col">
-                <h2 className="text-xl font-semibold">{cert.name}</h2>
+                <h2 className="text-xl font-semibold text-black">
+                  {cert.name}
+                </h2>
                 <div className="text-gray-500">
                   <p>{cert.issuer}</p>
                   <p>{cert.date}</p>
                 </div>
 
+                {/* Links */}
                 <div className="mt-2 flex flex-col gap-2">
                   <a
                     href={cert.certificateUrl}
@@ -785,6 +800,8 @@ export default function CertificatesPage() {
           ))}
         </ul>
       )}
+
+      {/* Footer */}
       <footer className="mt-auto py-4 text-center text-white">
         <a
           href="https://purplerain.framer.ai/"
