@@ -53,34 +53,25 @@
 // }
 
 import { NextResponse } from "next/server";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient();
+import { supabase } from "@/lib/supabaseClient"; // Import Supabase client
 
 // ✅ Handle GET request to retrieve all certificates
 export async function GET() {
   try {
-    console.log("Fetching certificates from the database...");
+    console.log("Fetching certificates from Supabase...");
 
-    const certificates = await prisma.certificate.findMany({
-      select: {
-        id: true,
-        name: true,
-        issuer: true,
-        date: true,
-        certificateUrl: true,
-        joiningLetterUrl: true,
-        recommendationLetterUrl: true,
-      },
-    });
+    const { data, error } = await supabase
+      .from("certificates") // Supabase table name
+      .select("id, name, issuer, date, certificateUrl, joiningLetterUrl, recommendationLetterUrl");
 
-    console.log("Certificates fetched successfully:", certificates);
+    if (error) throw error;
 
-    return NextResponse.json(certificates, { status: 200 });
-  } catch (error) {
+    console.log("Certificates fetched successfully:", data);
+    return NextResponse.json(data, { status: 200 });
+  } catch (error: any) {
     console.error("❌ Error fetching certificates:", error);
     return NextResponse.json(
-      { error: "Error fetching certificates" },
+      { error: error.message || "Error fetching certificates" },
       { status: 500 }
     );
   }
@@ -108,30 +99,29 @@ export async function POST(req: Request) {
       );
     }
 
-    console.log("Creating new certificate...");
-    const newCertificate = await prisma.certificate.create({
-      data: { name, issuer, date, certificateUrl, joiningLetterUrl, recommendationLetterUrl },
-    });
-    console.log("New certificate created:", newCertificate);
+    console.log("Inserting new certificate...");
+    const { data, error } = await supabase
+      .from("certificates") // Supabase table name
+      .insert([{ name, issuer, date, certificateUrl, joiningLetterUrl, recommendationLetterUrl }]);
 
-    return NextResponse.json(newCertificate, { status: 201 });
-  } catch (error) {
+    if (error) throw error;
+
+    console.log("New certificate added:", data);
+    return NextResponse.json(data, { status: 201 });
+  } catch (error: any) {
     console.error("❌ Error adding certificate:", error);
     return NextResponse.json(
-      { error: "Database error" },
+      { error: error.message || "Database error" },
       { status: 500 }
     );
   }
 }
 
-// ✅ Handle OPTIONS request (CORS support)
-export async function OPTIONS() {
-  return new NextResponse(null, {
-    status: 200,
-    headers: {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-      "Access-Control-Allow-Headers": "Content-Type",
-    },
-  });
+// ✅ CORS Handling Middleware
+export function middleware(req: Request) {
+  const response = NextResponse.next();
+  response.headers.set("Access-Control-Allow-Origin", "*");
+  response.headers.set("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  response.headers.set("Access-Control-Allow-Headers", "Content-Type");
+  return response;
 }

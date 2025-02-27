@@ -649,6 +649,12 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import { createClient } from "@supabase/supabase-js";
+
+// Initialize Supabase Client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 interface Certificate {
   id: string;
@@ -670,31 +676,14 @@ export default function CertificatesPage() {
     setError(null);
 
     try {
-      const apiUrl = "/api/certificates";
+      console.log("Fetching data from Supabase...");
+      const { data, error } = await supabase.from("certificates").select("*");
 
-      const res = await fetch(apiUrl, {
-        method: "GET",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!res.ok) {
-        const errorText = await res.text();
-        throw new Error(`HTTP ${res.status}: ${errorText}`);
-      }
-
-      const data = await res.json();
-
-      if (!Array.isArray(data)) {
-        throw new Error("Unexpected API response format.");
-      }
+      if (error) throw error;
 
       setCertificates(data);
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(`Unable to load certificates: ${err.message}`);
-      } else {
-        setError("Unable to load certificates due to an unknown error.");
-      }
+    } catch (err: any) {
+      setError(`Unable to load certificates: ${err.message}`);
     } finally {
       setLoading(false);
     }
@@ -714,7 +703,7 @@ export default function CertificatesPage() {
     >
       {/* Company Logo */}
       <Image
-        src="/new.png" // Ensure the image is in the `public` folder
+        src="/new.png"
         alt="Company Logo"
         width={128}
         height={80}
