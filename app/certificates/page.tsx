@@ -651,9 +651,14 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
 
-// Initialize Supabase Client
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+// ✅ Safely Initialize Supabase Client
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error("❌ Supabase environment variables are missing!");
+}
+
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 interface Certificate {
@@ -670,28 +675,35 @@ export default function CertificatesPage() {
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
-  const fetchCertificates = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      console.log("Fetching data from Supabase...");
-      const { data, error } = await supabase.from("certificates").select("*");
-
-      if (error) throw error;
-
-      setCertificates(data);
-    } catch (err: any) {
-      setError(`Unable to load certificates: ${err.message}`);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const [isClient, setIsClient] = useState(false); // ✅ Fixes hydration issues
 
   useEffect(() => {
+    setIsClient(true); // Ensures component is mounted in client
+
+    const fetchCertificates = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        console.log("🔍 Fetching data from Supabase...");
+        const { data, error } = await supabase.from("certificates").select("*");
+
+        if (error) throw error;
+
+        console.log("✅ Certificates fetched:", data);
+        setCertificates(data);
+      } catch (err: any) {
+        console.error("❌ Fetch error:", err);
+        setError(`Unable to load certificates: ${err.message}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
     fetchCertificates();
   }, []);
+
+  if (!isClient) return null; // ✅ Prevents hydration mismatch
 
   return (
     <div
@@ -701,7 +713,7 @@ export default function CertificatesPage() {
           "url('https://th.bing.com/th/id/OIP.vFzrIM2R7hCCmjRFMojeRQHaEK?rs=1&pid=ImgDetMain')",
       }}
     >
-      {/* Company Logo */}
+      {/* 🏢 Company Logo */}
       <Image
         src="/new.png"
         alt="Company Logo"
@@ -710,15 +722,15 @@ export default function CertificatesPage() {
         className="absolute top-0 left-4 w-24 h-16 md:w-32 md:h-20 object-contain"
       />
 
-      {/* Page Title */}
+      {/* 🏆 Page Title */}
       <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
         Intern&apos;s Folio
       </h1>
 
-      {/* Error Message */}
+      {/* ⚠️ Error Message */}
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
-      {/* Loading State */}
+      {/* ⏳ Loading State */}
       {loading ? (
         <div className="flex items-center space-x-2">
           <div className="w-5 h-5 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
@@ -733,7 +745,7 @@ export default function CertificatesPage() {
               key={cert.id}
               className="p-4 bg-white shadow-md rounded-lg flex flex-col md:flex-row items-center gap-4"
             >
-              {/* Verified GIF */}
+              {/* ✅ Verified GIF */}
               <Image
                 src="https://media3.giphy.com/media/PijzuUzUhm7hcWinGn/giphy.gif"
                 alt="Verified"
@@ -743,7 +755,7 @@ export default function CertificatesPage() {
                 unoptimized
               />
 
-              {/* Certificate Details */}
+              {/* 📜 Certificate Details */}
               <div className="flex flex-col">
                 <h2 className="text-xl font-semibold text-black">
                   {cert.name}
@@ -753,7 +765,7 @@ export default function CertificatesPage() {
                   <p>{cert.date}</p>
                 </div>
 
-                {/* Links */}
+                {/* 🔗 Links */}
                 <div className="mt-2 flex flex-col gap-2">
                   <a
                     href={cert.certificateUrl}
@@ -790,7 +802,7 @@ export default function CertificatesPage() {
         </ul>
       )}
 
-      {/* Footer */}
+      {/* 🔗 Footer */}
       <footer className="mt-auto py-4 text-center text-white">
         <a
           href="https://purplerain.framer.ai/"
