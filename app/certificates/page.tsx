@@ -701,8 +701,12 @@ export default function CertificatesPage() {
         }));
 
         setCertificates(transformedData);
-      } catch (err: any) {
-        setError(`Unable to load certificates: ${err.message}`);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(`Unable to load certificates: ${err.message}`);
+        } else {
+          setError("An unknown error occurred.");
+        }
       } finally {
         setLoading(false);
       }
