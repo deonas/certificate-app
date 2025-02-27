@@ -694,7 +694,10 @@ export default function CertificatesPage() {
 
         // ✅ Map API response to match TypeScript interface
         const transformedData = data.map((cert: any) => ({
-          ...cert,
+          id: cert.id,
+          name: cert.name,
+          issuer: cert.issuer,
+          date: cert.date,
           certificateUrl: cert.certificateurl,
           joiningLetterUrl: cert.joiningletterurl,
           recommendationLetterUrl: cert.recommendationletterurl,
