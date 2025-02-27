@@ -685,15 +685,14 @@ export default function CertificatesPage() {
       setError(null);
 
       try {
-        console.log("🔍 Fetching data from Supabase...");
+        console.log("Fetching data from Supabase...");
         const { data, error } = await supabase.from("certificates").select("*");
 
         if (error) throw error;
 
-        console.log("✅ Certificates fetched:", data);
+        console.log("Fetched Certificates:", data); // ✅ Check if URLs exist
         setCertificates(data);
       } catch (err: any) {
-        console.error("❌ Fetch error:", err);
         setError(`Unable to load certificates: ${err.message}`);
       } finally {
         setLoading(false);
@@ -765,52 +764,52 @@ export default function CertificatesPage() {
                   <p>{cert.date}</p>
                 </div>
 
-                {/* 🔗 Links */}
+                {/* 🔗 Links Section */}
                 <div className="mt-2 flex flex-col gap-2">
-                  {cert.certificateUrl && cert.certificateUrl.trim() !== "" && (
+                  {cert.certificateUrl ? (
                     <a
-                      href={
-                        cert.certificateUrl.startsWith("http")
-                          ? cert.certificateUrl
-                          : `https://${cert.certificateUrl}`
-                      }
-                      className="text-blue-500 underline"
+                      href={cert.certificateUrl}
+                      className="text-blue-500 underline font-medium"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       📜 View Certificate
                     </a>
+                  ) : (
+                    <p className="text-gray-400">
+                      ❌ Certificate Not Available
+                    </p>
                   )}
-                  {cert.joiningLetterUrl &&
-                    cert.joiningLetterUrl.trim() !== "" && (
-                      <a
-                        href={
-                          cert.joiningLetterUrl.startsWith("http")
-                            ? cert.joiningLetterUrl
-                            : `https://${cert.joiningLetterUrl}`
-                        }
-                        className="text-green-500 underline"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        📄 View Joining Letter
-                      </a>
-                    )}
-                  {cert.recommendationLetterUrl &&
-                    cert.recommendationLetterUrl.trim() !== "" && (
-                      <a
-                        href={
-                          cert.recommendationLetterUrl.startsWith("http")
-                            ? cert.recommendationLetterUrl
-                            : `https://${cert.recommendationLetterUrl}`
-                        }
-                        className="text-purple-500 underline"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        ✉️ View Recommendation Letter
-                      </a>
-                    )}
+
+                  {cert.joiningLetterUrl ? (
+                    <a
+                      href={cert.joiningLetterUrl}
+                      className="text-green-500 underline font-medium"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      📄 View Joining Letter
+                    </a>
+                  ) : (
+                    <p className="text-gray-400">
+                      ❌ Joining Letter Not Available
+                    </p>
+                  )}
+
+                  {cert.recommendationLetterUrl ? (
+                    <a
+                      href={cert.recommendationLetterUrl}
+                      className="text-purple-500 underline font-medium"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      ✉️ View Recommendation Letter
+                    </a>
+                  ) : (
+                    <p className="text-gray-400">
+                      ❌ Recommendation Letter Not Available
+                    </p>
+                  )}
                 </div>
               </div>
             </li>
