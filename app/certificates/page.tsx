@@ -765,19 +765,28 @@ export default function CertificatesPage() {
                   <p>{cert.date}</p>
                 </div>
 
-                {/* 🔗 Links */}
                 <div className="mt-2 flex flex-col gap-2">
-                  <a
-                    href={cert.certificateUrl}
-                    className="text-blue-500 underline"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    📜 View Certificate
-                  </a>
+                  {cert.certificateUrl && (
+                    <a
+                      href={
+                        cert.certificateUrl.startsWith("http")
+                          ? cert.certificateUrl
+                          : `https://${cert.certificateUrl}`
+                      }
+                      className="text-blue-500 underline"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      📜 View Certificate
+                    </a>
+                  )}
                   {cert.joiningLetterUrl && (
                     <a
-                      href={cert.joiningLetterUrl}
+                      href={
+                        cert.joiningLetterUrl.startsWith("http")
+                          ? cert.joiningLetterUrl
+                          : `https://${cert.joiningLetterUrl}`
+                      }
                       className="text-green-500 underline"
                       target="_blank"
                       rel="noopener noreferrer"
@@ -787,7 +796,11 @@ export default function CertificatesPage() {
                   )}
                   {cert.recommendationLetterUrl && (
                     <a
-                      href={cert.recommendationLetterUrl}
+                      href={
+                        cert.recommendationLetterUrl.startsWith("http")
+                          ? cert.recommendationLetterUrl
+                          : `https://${cert.recommendationLetterUrl}`
+                      }
                       className="text-purple-500 underline"
                       target="_blank"
                       rel="noopener noreferrer"
