@@ -765,8 +765,9 @@ export default function CertificatesPage() {
                   <p>{cert.date}</p>
                 </div>
 
+                {/* 🔗 Links */}
                 <div className="mt-2 flex flex-col gap-2">
-                  {cert.certificateUrl && (
+                  {cert.certificateUrl && cert.certificateUrl.trim() !== "" && (
                     <a
                       href={
                         cert.certificateUrl.startsWith("http")
@@ -780,34 +781,36 @@ export default function CertificatesPage() {
                       📜 View Certificate
                     </a>
                   )}
-                  {cert.joiningLetterUrl && (
-                    <a
-                      href={
-                        cert.joiningLetterUrl.startsWith("http")
-                          ? cert.joiningLetterUrl
-                          : `https://${cert.joiningLetterUrl}`
-                      }
-                      className="text-green-500 underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      📄 View Joining Letter
-                    </a>
-                  )}
-                  {cert.recommendationLetterUrl && (
-                    <a
-                      href={
-                        cert.recommendationLetterUrl.startsWith("http")
-                          ? cert.recommendationLetterUrl
-                          : `https://${cert.recommendationLetterUrl}`
-                      }
-                      className="text-purple-500 underline"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      ✉️ View Recommendation Letter
-                    </a>
-                  )}
+                  {cert.joiningLetterUrl &&
+                    cert.joiningLetterUrl.trim() !== "" && (
+                      <a
+                        href={
+                          cert.joiningLetterUrl.startsWith("http")
+                            ? cert.joiningLetterUrl
+                            : `https://${cert.joiningLetterUrl}`
+                        }
+                        className="text-green-500 underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        📄 View Joining Letter
+                      </a>
+                    )}
+                  {cert.recommendationLetterUrl &&
+                    cert.recommendationLetterUrl.trim() !== "" && (
+                      <a
+                        href={
+                          cert.recommendationLetterUrl.startsWith("http")
+                            ? cert.recommendationLetterUrl
+                            : `https://${cert.recommendationLetterUrl}`
+                        }
+                        className="text-purple-500 underline"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        ✉️ View Recommendation Letter
+                      </a>
+                    )}
                 </div>
               </div>
             </li>
