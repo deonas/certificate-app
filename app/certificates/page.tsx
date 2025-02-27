@@ -671,6 +671,16 @@ interface Certificate {
   recommendationLetterUrl?: string;
 }
 
+interface SupabaseCertificate {
+  id: string;
+  name: string;
+  issuer: string;
+  date: string;
+  certificateurl?: string;
+  joiningletterurl?: string;
+  recommendationletterurl?: string;
+}
+
 export default function CertificatesPage() {
   const [certificates, setCertificates] = useState<Certificate[]>([]);
   const [loading, setLoading] = useState(true);
@@ -693,7 +703,7 @@ export default function CertificatesPage() {
         console.log("Fetched Certificates:", JSON.stringify(data, null, 2));
 
         // ✅ Map API response to match TypeScript interface
-        const transformedData = data.map((cert: any) => ({
+        const transformedData = data.map((cert: SupabaseCertificate) => ({
           id: cert.id,
           name: cert.name,
           issuer: cert.issuer,
