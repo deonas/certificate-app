@@ -645,11 +645,13 @@
 //   );
 // }
 
+// app/certificates/page.tsx
 "use client";
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import { createClient } from "@supabase/supabase-js";
+import QRCode from "react-qr-code"; // Use the new library
 
 // ✅ Safely Initialize Supabase Client
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -827,6 +829,13 @@ export default function CertificatesPage() {
                       ❌ Recommendation Letter Not Available
                     </p>
                   )}
+                </div>
+
+                {/* Add QR Code Here */}
+                <div className="mt-4">
+                  <QRCode
+                    value={`https://yourdomain.com/certificates/${cert.id}`}
+                  />
                 </div>
               </div>
             </li>
