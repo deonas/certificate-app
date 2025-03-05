@@ -6,12 +6,15 @@ const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } } // Correctly type the params
+) {
   const { id } = params;
 
   try {
     console.log(`Fetching certificate with ID: ${id} from Supabase...`);
-    
+
     const { data, error } = await supabase
       .from("certificates")
       .select("*")
@@ -24,6 +27,9 @@ export async function GET(request: Request, { params }: { params: { id: string }
     return NextResponse.json(data, { status: 200 });
   } catch (error) {
     console.error("❌ Error fetching certificate:", error);
-    return NextResponse.json({ error: "Error fetching certificate" }, { status: 500 });
+    return NextResponse.json(
+      { error: "Error fetching certificate" },
+      { status: 500 }
+    );
   }
 }
