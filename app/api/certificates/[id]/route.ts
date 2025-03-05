@@ -14,7 +14,6 @@ export async function GET(
 
   try {
     console.log(`Fetching certificate with ID: ${id} from Supabase...`);
-
     const { data, error } = await supabase
       .from("certificates")
       .select("*")
