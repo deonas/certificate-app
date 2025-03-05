@@ -130,10 +130,6 @@ export default function CertificatePage() {
         </h1>
         {/* Content here */}
 
-        <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
-          Certificate Details
-        </h1>
-
         {loading ? (
           <div className="flex items-center space-x-2">
             <div className="w-5 h-5 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
