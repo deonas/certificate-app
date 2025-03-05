@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
+import { NextRequest } from "next/server";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -7,10 +8,10 @@ const supabase = createClient(
 );
 
 export async function GET(
-  request: Request, 
-  context: { params: { id: string } }
+  request: NextRequest, 
+  { params }: { params: { id: string } } // Correct way to destructure context
 ) {
-  const { id } = context.params;
+  const { id } = params; // Now params is correctly destructured
 
   try {
     console.log(`Fetching certificate with ID: ${id} from Supabase...`);
