@@ -108,10 +108,13 @@ export default function CertificatePage() {
   return (
     <div className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center p-4 md:p-6">
       <div
+        className="min-h-screen flex flex-col items-center p-4 md:p-6"
         style={{
           backgroundImage: `url('https://th.bing.com/th/id/OIP.vFzrIM2R7hCCmjRFMojeRQHaEK?rs=1&pid=ImgDetMain')`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          width: "100vw",
         }}
       >
         <Image
@@ -119,100 +122,103 @@ export default function CertificatePage() {
           alt="Company Logo"
           width={128}
           height={80}
-          className="absolute top-0 left-4 w-24 h-16 md:w-32 md:h-20 object-contain"
+          className="absolute top-4 left-4 w-24 h-16 md:w-32 md:h-20 object-contain"
         />
+
         <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
           Intern&apos;s Folio
         </h1>
         {/* Content here */}
-      </div>
 
-      <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
-        Certificate Details
-      </h1>
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
+          Certificate Details
+        </h1>
 
-      {loading ? (
-        <div className="flex items-center space-x-2">
-          <div className="w-5 h-5 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-gray-500">Loading certificate...</p>
-        </div>
-      ) : error ? (
-        <p className="text-red-500">{error}</p>
-      ) : certificate ? (
-        <div className="p-4 bg-white shadow-md rounded-lg flex flex-col md:flex-row items-center gap-4">
-          <Image
-            src="https://media3.giphy.com/media/PijzuUzUhm7hcWinGn/giphy.gif"
-            alt="Verified"
-            width={80}
-            height={80}
-            className="w-16 h-16 md:w-20 md:h-20"
-            unoptimized
-          />
-          <div className="flex flex-col">
-            <h2 className="text-xl font-semibold text-black">
-              {certificate.name}
-            </h2>
-            <div className="text-gray-500">
-              <p>{certificate.issuer}</p>
-              <p>{certificate.date}</p>
-            </div>
+        {loading ? (
+          <div className="flex items-center space-x-2">
+            <div className="w-5 h-5 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+            <p className="text-gray-500">Loading certificate...</p>
+          </div>
+        ) : error ? (
+          <p className="text-red-500">{error}</p>
+        ) : certificate ? (
+          <div className="p-4 bg-white shadow-md rounded-lg flex flex-col md:flex-row items-center gap-4">
+            <Image
+              src="https://media3.giphy.com/media/PijzuUzUhm7hcWinGn/giphy.gif"
+              alt="Verified"
+              width={80}
+              height={80}
+              className="w-16 h-16 md:w-20 md:h-20"
+              unoptimized
+            />
+            <div className="flex flex-col">
+              <h2 className="text-xl font-semibold text-black">
+                {certificate.name}
+              </h2>
+              <div className="text-gray-500">
+                <p>{certificate.issuer}</p>
+                <p>{certificate.date}</p>
+              </div>
 
-            <div className="mt-2 flex flex-col gap-2">
-              {certificate.certificateUrl ? (
-                <a
-                  href={certificate.certificateUrl}
-                  className="text-blue-500 underline font-medium"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  📜 View Certificate
-                </a>
-              ) : (
-                <p className="text-red-500">❌ Certificate Not Available</p>
-              )}
+              <div className="mt-2 flex flex-col gap-2">
+                {certificate.certificateUrl ? (
+                  <a
+                    href={certificate.certificateUrl}
+                    className="text-blue-500 underline font-medium"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    📜 View Certificate
+                  </a>
+                ) : (
+                  <p className="text-red-500">❌ Certificate Not Available</p>
+                )}
 
-              {certificate.joiningLetterUrl ? (
-                <a
-                  href={certificate.joiningLetterUrl}
-                  className="text-green-500 underline font-medium"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  📄 View Joining Letter
-                </a>
-              ) : (
-                <p className="text-red-500">❌ Joining Letter Not Available</p>
-              )}
+                {certificate.joiningLetterUrl ? (
+                  <a
+                    href={certificate.joiningLetterUrl}
+                    className="text-green-500 underline font-medium"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    📄 View Joining Letter
+                  </a>
+                ) : (
+                  <p className="text-red-500">
+                    ❌ Joining Letter Not Available
+                  </p>
+                )}
 
-              {certificate.recommendationLetterUrl ? (
-                <a
-                  href={certificate.recommendationLetterUrl}
-                  className="text-purple-500 underline font-medium"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  ✉️ View Recommendation Letter
-                </a>
-              ) : (
-                <p className="text-red-500">
-                  ❌ Recommendation Letter Not Available
-                </p>
-              )}
+                {certificate.recommendationLetterUrl ? (
+                  <a
+                    href={certificate.recommendationLetterUrl}
+                    className="text-purple-500 underline font-medium"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    ✉️ View Recommendation Letter
+                  </a>
+                ) : (
+                  <p className="text-red-500">
+                    ❌ Recommendation Letter Not Available
+                  </p>
+                )}
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <p className="text-red-500">Certificate not found.</p>
-      )}
-      <footer className="mt-auto py-4 text-center text-white">
-        <a
-          href="https://purplerain.framer.ai/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Company Website
-        </a>
-      </footer>
+        ) : (
+          <p className="text-red-500">Certificate not found.</p>
+        )}
+        <footer className="mt-auto py-4 text-center text-white">
+          <a
+            href="https://purplerain.framer.ai/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Company Website
+          </a>
+        </footer>
+      </div>
     </div>
   );
 }
