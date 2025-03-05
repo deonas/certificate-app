@@ -1,17 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextApiRequest, NextApiResponse } from "next";
 import { createClient } from "@supabase/supabase-js";
-import { NextRequest } from "next/server";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
-export async function GET(
-  request: NextRequest, 
-  { params }: { params: { id: string } } // Correct way to destructure context
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
 ) {
-  const { id } = params; // Now params is correctly destructured
+  const { id } = req.query;
 
   try {
     console.log(`Fetching certificate with ID: ${id} from Supabase...`);
@@ -24,12 +23,9 @@ export async function GET(
     if (error) throw error;
 
     console.log("Certificate fetched successfully:", data);
-    return NextResponse.json(data, { status: 200 });
+    res.status(200).json(data);
   } catch (error) {
     console.error("❌ Error fetching certificate:", error);
-    return NextResponse.json(
-      { error: "Error fetching certificate" },
-      { status: 500 }
-    );
+    res.status(500).json({ error: "Error fetching certificate" });
   }
 }
