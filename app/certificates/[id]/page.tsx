@@ -1,5 +1,5 @@
 "use client";
-
+import Image from "next/image"; // Ensure this import is present
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
@@ -107,6 +107,26 @@ export default function CertificatePage() {
 
   return (
     <div className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center p-4 md:p-6">
+      <div
+        style={{
+          backgroundImage: `url('https://th.bing.com/th/id/OIP.vFzrIM2R7hCCmjRFMojeRQHaEK?rs=1&pid=ImgDetMain')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <Image
+          src="/new.png"
+          alt="Company Logo"
+          width={128}
+          height={80}
+          className="absolute top-0 left-4 w-24 h-16 md:w-32 md:h-20 object-contain"
+        />
+        <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
+          Intern&apos;s Folio
+        </h1>
+        {/* Content here */}
+      </div>
+
       <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
         Certificate Details
       </h1>
@@ -120,6 +140,14 @@ export default function CertificatePage() {
         <p className="text-red-500">{error}</p>
       ) : certificate ? (
         <div className="p-4 bg-white shadow-md rounded-lg flex flex-col md:flex-row items-center gap-4">
+          <Image
+            src="https://media3.giphy.com/media/PijzuUzUhm7hcWinGn/giphy.gif"
+            alt="Verified"
+            width={80}
+            height={80}
+            className="w-16 h-16 md:w-20 md:h-20"
+            unoptimized
+          />
           <div className="flex flex-col">
             <h2 className="text-xl font-semibold text-black">
               {certificate.name}
@@ -176,6 +204,15 @@ export default function CertificatePage() {
       ) : (
         <p className="text-red-500">Certificate not found.</p>
       )}
+      <footer className="mt-auto py-4 text-center text-white">
+        <a
+          href="https://purplerain.framer.ai/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Company Website
+        </a>
+      </footer>
     </div>
   );
 }

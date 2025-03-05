@@ -832,11 +832,6 @@ export default function CertificatesPage() {
                 </div>
 
                 {/* Add QR Code Here */}
-                <div className="mt-4">
-                  <QRCode
-                    value={`https://yourdomain.com/certificates/${cert.id}`}
-                  />
-                </div>
               </div>
             </li>
           ))}
