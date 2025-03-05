@@ -8,7 +8,7 @@ const supabase = createClient(
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } } // Correctly type the params
+  { params }: { params: { id: string } }
 ) {
   const { id } = params;
 
