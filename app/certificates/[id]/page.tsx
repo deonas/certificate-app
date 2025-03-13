@@ -104,13 +104,20 @@ export default function CertificatePage() {
     <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex flex-col">
       {/* Logo at the very top */}
       <div className="w-full p-4">
-        <Image
-          src="/pic7.jpg"
-          alt="Company Logo"
-          width={180}
-          height={60}
-          className="object-contain"
-        />
+        <a
+          href="https://purplerain.framer.ai/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block transition-transform hover:scale-105"
+        >
+          <Image
+            src="/pic7.jpg"
+            alt="Company Logo"
+            width={180}
+            height={60}
+            className="object-contain"
+          />
+        </a>
       </div>
 
       <div className="flex-1 container mx-auto px-4 py-8">
@@ -197,14 +204,9 @@ export default function CertificatePage() {
 
       {/* Footer at the very bottom */}
       <footer className="w-full py-6 bg-black/20 mt-auto">
-        <a
-          href="https://purplerain.framer.ai/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="block text-center text-blue-200 hover:text-white transition-colors duration-300 text-lg"
-        >
-          Visit Company Website
-        </a>
+        <p className="text-center text-blue-200 text-lg">
+          © All Rights Reserved PurpleRain TechSafe 2025
+        </p>
       </footer>
     </div>
   );
