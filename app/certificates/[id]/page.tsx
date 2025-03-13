@@ -1,5 +1,5 @@
 "use client";
-import Image from "next/image"; // Ensure this import is present
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { createClient } from "@supabase/supabase-js";
@@ -73,105 +73,139 @@ export default function CertificatePage() {
   }, [id]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center">
+        <div className="animate-pulse text-white text-xl">Loading...</div>
+      </div>
+    );
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center">
+        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 text-white">
+          {error}
+        </div>
+      </div>
+    );
   }
 
   if (!certificate) {
-    return <div>Certificate not found.</div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex items-center justify-center">
+        <div className="bg-white/10 backdrop-blur-lg rounded-lg p-6 text-white">
+          Certificate not found.
+        </div>
+      </div>
+    );
   }
 
   return (
-    <div className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center p-4 md:p-6">
-      <div
-        className="min-h-screen flex flex-col items-center p-4 md:p-6"
-        style={{
-          backgroundImage: `url('https://th.bing.com/th/id/OIP.vFzrIM2R7hCCmjRFMojeRQHaEK?rs=1&pid=ImgDetMain')`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-          width: "100vw",
-        }}
-      >
+    <div className="min-h-screen bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 flex flex-col">
+      {/* Logo at the very top */}
+      <div className="w-full p-4">
         <Image
-          src="/new.png"
+          src="/pic7.jpg"
           alt="Company Logo"
-          width={128}
-          height={80}
-          className="absolute top-4 left-4 w-24 h-16 md:w-32 md:h-20 object-contain"
+          width={180}
+          height={60}
+          className="object-contain"
         />
+      </div>
 
-        <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
-          Intern&apos;s Folio
-        </h1>
+      <div className="flex-1 container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold text-white tracking-tight">
+            Intern&apos;s Folio
+          </h1>
+        </div>
 
-        <div className="p-4 bg-white shadow-md rounded-lg flex flex-col md:flex-row items-center gap-4">
-          <Image
-            src="https://media3.giphy.com/media/PijzuUzUhm7hcWinGn/giphy.gif"
-            alt="Verified"
-            width={80}
-            height={80}
-            className="w-16 h-16 md:w-20 md:h-20"
-            unoptimized
-          />
-          <div className="flex flex-col">
-            <h2 className="text-xl font-semibold text-black">
-              {certificate.name}
-            </h2>
-            <div className="text-gray-500">
-              <p>{certificate.issuer}</p>
-              <p>{certificate.date}</p>
-            </div>
+        {/* Main Content */}
+        <div className="max-w-3xl mx-auto">
+          <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl">
+            <div className="flex flex-col md:flex-row items-center gap-8">
+              <div className="relative">
+                <div className="absolute inset-0 bg-blue-500/20 rounded-full animate-pulse"></div>
+                <Image
+                  src="https://th.bing.com/th/id/OIP.Q2kHYfvOGPSLAsGa7RSo7QHaHa?rs=1&pid=ImgDetMain"
+                  alt="Verified"
+                  width={120}
+                  height={120}
+                  className="relative rounded-full"
+                  unoptimized
+                />
+              </div>
 
-            <div className="mt-2 flex flex-col gap-2">
-              {certificate.certificateUrl && (
-                <a
-                  href={certificate.certificateUrl}
-                  className="text-blue-500 underline font-medium"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  📜 View Certificate
-                </a>
-              )}
+              <div className="flex-1">
+                <h2 className="text-3xl font-bold text-white mb-2">
+                  {certificate.name}
+                </h2>
+                <div className="text-blue-200 space-y-1">
+                  <p className="text-lg">{certificate.issuer}</p>
+                  <p className="font-light">{certificate.date}</p>
+                </div>
 
-              {certificate.joiningLetterUrl && (
-                <a
-                  href={certificate.joiningLetterUrl}
-                  className="text-green-500 underline font-medium"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  📄 View Joining Letter
-                </a>
-              )}
+                <div className="mt-8 space-y-4">
+                  {certificate.certificateUrl && (
+                    <a
+                      href={certificate.certificateUrl}
+                      className="flex items-center gap-3 px-6 py-3 bg-blue-600/20 hover:bg-blue-600/30 rounded-lg transition-all duration-300 group"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="text-2xl">📄</span>
+                      <span className="text-white group-hover:translate-x-1 transition-transform duration-300">
+                        View Certificate
+                      </span>
+                    </a>
+                  )}
 
-              {certificate.recommendationLetterUrl && (
-                <a
-                  href={certificate.recommendationLetterUrl}
-                  className="text-purple-500 underline font-medium"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  ✉️ View Recommendation Letter
-                </a>
-              )}
+                  {certificate.joiningLetterUrl && (
+                    <a
+                      href={certificate.joiningLetterUrl}
+                      className="flex items-center gap-3 px-6 py-3 bg-purple-600/20 hover:bg-purple-600/30 rounded-lg transition-all duration-300 group"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="text-2xl">📄</span>
+                      <span className="text-white group-hover:translate-x-1 transition-transform duration-300">
+                        View Joining Letter
+                      </span>
+                    </a>
+                  )}
+
+                  {certificate.recommendationLetterUrl && (
+                    <a
+                      href={certificate.recommendationLetterUrl}
+                      className="flex items-center gap-3 px-6 py-3 bg-indigo-600/20 hover:bg-indigo-600/30 rounded-lg transition-all duration-300 group"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <span className="text-2xl">📄</span>
+                      <span className="text-white group-hover:translate-x-1 transition-transform duration-300">
+                        View Recommendation Letter
+                      </span>
+                    </a>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        <footer className="mt-auto py-4 text-center text-white">
-          <a
-            href="https://purplerain.framer.ai/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Company Website
-          </a>
-        </footer>
       </div>
+
+      {/* Footer at the very bottom */}
+      <footer className="w-full py-6 bg-black/20 mt-auto">
+        <a
+          href="https://purplerain.framer.ai/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="block text-center text-blue-200 hover:text-white transition-colors duration-300 text-lg"
+        >
+          Visit Company Website
+        </a>
+      </footer>
     </div>
   );
 }

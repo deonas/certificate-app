@@ -735,22 +735,22 @@ export default function CertificatesPage() {
     <div
       className="min-h-screen bg-cover bg-center bg-no-repeat flex flex-col items-center p-4 md:p-6"
       style={{
-        backgroundImage:
-          "url('https://th.bing.com/th/id/OIP.vFzrIM2R7hCCmjRFMojeRQHaEK?rs=1&pid=ImgDetMain')",
+        backgroundImage: "url('https://wallpapercave.com/wp/wp2987144.jpg')",
+        backgroundSize: "cover", // Ensure the background covers the entire element
+        backgroundPosition: "center", // Center the background image
       }}
     >
       <Image
-        src="/new.png"
+        src="/pic7.jpg"
         alt="Company Logo"
-        width={128}
-        height={80}
-        className="absolute top-0 left-4 w-24 h-16 md:w-32 md:h-20 object-contain"
+        width={100}
+        height={40}
+        className="absolute top-2 left-2 w-32 h-10 md:w-40 md:h-20 object-contain"
       />
 
       <h1 className="text-2xl md:text-3xl font-bold text-white mb-4 md:mb-6">
         Intern&apos;s Folio
       </h1>
-
       {error && <p className="text-red-500 mb-4">{error}</p>}
 
       {loading ? (
